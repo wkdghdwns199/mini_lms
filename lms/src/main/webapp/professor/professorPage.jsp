@@ -18,6 +18,9 @@
 	Statement statement = connection.createStatement();
 
 	ResultSet classSet = statement.executeQuery("select * from CLASS");
+	
+	
+	//String teacherID = "30"; // 추후 변경 -> 교수 정보를 불러와서 대체할 것.
 %>
 
 <div class="layout">
@@ -42,22 +45,25 @@
         <th style="background-color: white; color : grey; text-align: left; padding: 4px 8px;">담당교수</th>
         <th style="background-color: white; color : grey; text-align: left; padding: 4px 8px;">출석체크</th>
       </tr>
-      <% while(classSet.next()){ %>
+      <% while(classSet.next()){ // 모든 클래스들에 대해서 %>
 				<tr class = "subject-container">
 					<%
+						//String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
+						String teacherID = "30"; // 추후 변경 -> 교수 정보를 불러와서 대체할 것.
 						String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
 						PreparedStatement pstmt = connection.prepareStatement(sql);
-						pstmt.setString(1, classSet.getString(4)); // 4번째 컬럼에 있는 teacher_id 값을 설정
+						pstmt.setString(1, teacherID); // 4번째 컬럼에 있는 teacher_id 값을 설정
 						
 						ResultSet rs = pstmt.executeQuery();
-								
-						if(!rs.next())
+						
+						// 담당 교수님이 존재한다? 노노 우리가 원하는 것은 해당 수업이 담당 교수일 때를 원함.
+						if(!rs.next() || !classSet.getString(4).equals(teacherID))
 						{
 							continue;
 						}
 						
 						String className = classSet.getString(3);
-				    String teacherName = rs.getString("TEACHER_NAME");
+				    String teacherName = "구선우";//rs.getString("TEACHER_NAME");
 				    String classId = classSet.getString(2);
 					%>
 					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><%= className %></td>
