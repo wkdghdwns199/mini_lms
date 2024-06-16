@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("UTF-8"); %>
 <%@ page import= "java.sql.*" %>
-<jsp:useBean id="member" class="com.javalec.ex.MemberBean"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,7 +45,6 @@
       <% while(classSet.next()){ %>
 				<tr class = "subject-container">
 					<%
-						String className = classSet.getString(2);
 						String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
 						PreparedStatement pstmt = connection.prepareStatement(sql);
 						pstmt.setString(1, classSet.getString(4)); // 4번째 컬럼에 있는 teacher_id 값을 설정
@@ -56,13 +55,20 @@
 						{
 							continue;
 						}
+						
+						String className = classSet.getString(3);
+				    String teacherName = rs.getString("TEACHER_NAME");
+				    String classId = classSet.getString(2);
 					%>
-					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><%= classSet.getString(3) %></td>
-					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><%= classSet.getString(2) %></td>
-					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><% out.println(rs.getString("TEACHER_NAME")); %></td>
+					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><%= className %></td>
+					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><%= classId %></td>
+					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><% out.println(teacherName); %></td>
 					<form action = "attendancePage.jsp" method = "POST">
 						<td style='padding: 4px 8px;'>
 						<input type='submit' class='Check-button' value="출석 확인"> </td>
+						<input type='hidden' name='className' value='<%= className %>'>
+        		<input type='hidden' name='teacherName' value='<%= teacherName %>'>
+        		<input type='hidden' name='classId' value='<%= classId %>'>
 					</form>
 				</tr>
 			<% } %>

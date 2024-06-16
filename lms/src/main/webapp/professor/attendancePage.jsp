@@ -11,12 +11,18 @@
 <body>
 
 <%
+	request.setCharacterEncoding("utf-8");
+
 	Class.forName("oracle.jdbc.driver.OracleDriver");
 	Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521","nunu","sunwo123");
 
 	Statement statement = connection.createStatement();
 
 	ResultSet classSet = statement.executeQuery("select * from CLASS");
+	
+	String className = request.getParameter("className");
+  String teacherName = request.getParameter("teacherName");
+  String classId = request.getParameter("classId");
 %>
 
 <div class="layout">
@@ -35,6 +41,9 @@
      <div class="layout">
        <div class="modal-header-layout">
          <h1>데이터베이스</h1>
+         <% out.println(className); %>
+         <% out.println(teacherName); %>
+         <% out.println(classId); %>
          <div>
            <span class="time-select-layout">
              <label>출석 인정 시간</label>
