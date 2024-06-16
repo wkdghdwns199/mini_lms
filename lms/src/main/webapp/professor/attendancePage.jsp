@@ -26,7 +26,7 @@
 </div>
 		
 <div class="home-layout">
-  <button class="home-button" onclick="location.href='ProcessorPage.jsp'">
+  <button class="home-button" onclick="location.href='professorPage.jsp'">
   <p class="home-word">홈으로</p>
   </button>
 </div>
@@ -82,7 +82,7 @@
        </div>
        <div class="modal-footer-layout">
 	       <button class="attendance-button">저장</button>
-	       <button class="attendance-button close-area" onclick="location.href='ProcessorPage.jsp'">닫기</button>
+	       <button class="attendance-button close-area" onclick="location.href='professorPage.jsp'">닫기</button>
    		 </div>
      </div>
    </div>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import= "java.sql.*" %>
-<jsp:useBean id="subject" class="com.javalec.ex.SubjectInfo" scope="page"></jsp:useBean>
+<jsp:useBean id="member" class="com.javalec.ex.MemberBean"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +27,7 @@
 </div>
 		
 <div class="home-layout">
-  <button class="home-button" onclick="location.href='ProcessorPage.jsp'">
+  <button class="home-button" onclick="location.href='professorPage.jsp'">
   <p class="home-word">홈으로</p>
   </button>
 </div>
@@ -47,10 +47,8 @@
 					<%
 						String className = classSet.getString(2);
 						String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
-						String teacherName = sql.getString(1);
 						PreparedStatement pstmt = connection.prepareStatement(sql);
 						pstmt.setString(1, classSet.getString(4)); // 4번째 컬럼에 있는 teacher_id 값을 설정
-						String classId = classSet.getString(2);
 						
 						ResultSet rs = pstmt.executeQuery();
 								
@@ -64,9 +62,6 @@
 					<td style='font-size: 12px; font-weight: bold; padding: 4px 8px;' ><% out.println(rs.getString("TEACHER_NAME")); %></td>
 					<form action = "attendancePage.jsp" method = "POST">
 						<td style='padding: 4px 8px;'>
-						<jsp:setProperty name="subject" property="name" value="${className}"/>
-						<jsp:setProperty name="subject" property="classId" value="Jnunu"/>
-						<jsp:setProperty name="subject" property="teacherId" value="Jnunu"/>
 						<input type='submit' class='Check-button' value="출석 확인"> </td>
 					</form>
 				</tr>

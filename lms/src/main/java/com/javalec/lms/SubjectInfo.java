@@ -1,4 +1,4 @@
-package com.javalec.ex;
+package com.javalec.lms;
 
 public class SubjectInfo {
 	private String name;
