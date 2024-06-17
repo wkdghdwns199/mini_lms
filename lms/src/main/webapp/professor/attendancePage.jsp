@@ -11,12 +11,20 @@
 <body>
 
 <%
+	request.setCharacterEncoding("utf-8");
+
 	Class.forName("oracle.jdbc.driver.OracleDriver");
 	Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521","nunu","sunwo123");
 
 	Statement statement = connection.createStatement();
 
 	ResultSet classSet = statement.executeQuery("select * from CLASS");
+	ResultSet studentSet = statement.executeQuery("select * from STUDENT");
+	ResultSet class_studentSet = statement.executeQuery("select * from CLASS_STUDENT");
+	
+	String className = request.getParameter("className");
+  String teacherName = request.getParameter("teacherName");
+  String classId = request.getParameter("classId");
 %>
 
 <div class="layout">
@@ -34,7 +42,7 @@
    <div class="modal-body">
      <div class="layout">
        <div class="modal-header-layout">
-         <h1>데이터베이스</h1>
+         <h1><% out.println(className); %></h1>
          <div>
            <span class="time-select-layout">
              <label>출석 인정 시간</label>
@@ -62,6 +70,18 @@
          </div>
        </div>
        <div class="modal-body-layout">
+       	 <%
+		       	String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
+						PreparedStatement pstmt = connection.prepareStatement(sql);
+						pstmt.setString(1, classSet.getString(4)); // 4번째 컬럼에 있는 teacher_id 값을 설정
+						
+						ResultSet rs = pstmt.executeQuery();
+								
+						if(!rs.next())
+						{
+							continue;
+						}
+       	 %>
          <%for(int i = 0; i < 10; i++) { %>
          <div class="modal-student-layout">
            <div class="profile-information">

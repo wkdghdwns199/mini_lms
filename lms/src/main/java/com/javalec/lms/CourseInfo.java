@@ -1,15 +1,16 @@
 package com.javalec.lms;
 
-public class SubjectInfo {
-	private String name;
+public class CourseInfo {
+	private String courseName;
 	private String classId;
 	private String teacherId;
 	
-	public String getName() {
-		return name;
+	public String getCourseName() {
+		return courseName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 	public String getClassId() {
 		return classId;
