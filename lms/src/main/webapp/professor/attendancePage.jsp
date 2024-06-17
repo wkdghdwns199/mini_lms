@@ -71,25 +71,30 @@
        </div>
        <div class="modal-body-layout">
        	 <%
-		       	String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
+		       	String sql = "SELECT student_id FROM class_student WHERE class_id = ?";
 						PreparedStatement pstmt = connection.prepareStatement(sql);
-						pstmt.setString(1, classSet.getString(4)); // 4번째 컬럼에 있는 teacher_id 값을 설정
+						pstmt.setString(1, classId); // 4번째 컬럼에 있는 teacher_id 값을 설정
 						
 						ResultSet rs = pstmt.executeQuery();
-								
-						if(!rs.next())
-						{
-							continue;
-						}
        	 %>
-         <%for(int i = 0; i < 10; i++) { %>
+         <%while(rs.next()) { 
+        	 	String studentId = rs.getString("student_id");
+        	 	
+        	  String studentQuery = "SELECT * FROM student WHERE student_id = ?";
+       	    PreparedStatement studentPstmt = connection.prepareStatement(studentQuery);
+       	    studentPstmt.setString(1, studentId);
+       	    ResultSet studentRs = studentPstmt.executeQuery();
+       	    
+       	    if(!studentRs.next()) continue;
+       	    String studentName = studentRs.getString("student_name");
+         %>
          <div class="modal-student-layout">
            <div class="profile-information">
              <div class="profile-image">
              </div>
              <div class="student-name-ID">
-               <h4 style="margin: 0">김서우</h4>
-               <p style="margin: 0">123123123</p>
+               <h4 style="margin: 0"><%= studentName %></h4>
+               <p style="margin: 0"><%= studentId %></p>
              </div>
            </div>
            <select class="attendance-select" name="colorSelect" style="background-color: #ff2a2a">
