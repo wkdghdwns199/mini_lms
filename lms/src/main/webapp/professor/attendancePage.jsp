@@ -14,7 +14,7 @@
 	request.setCharacterEncoding("utf-8");
 
 	Class.forName("oracle.jdbc.driver.OracleDriver");
-	Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521","nunu","sunwo123");
+	Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521","scott","tiger");
 
 	Statement statement = connection.createStatement();
 

@@ -1,5 +1,6 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.javalec.lms.CourseBean" %>
+<%@ page import="com.javalec.lms.ClassInfo" %>
+<%@ page import="com.javalec.lms.ClassDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -50,12 +51,13 @@
         <h1>강의 목록</h1>
         <%
             // 세션에서 등록된 강의 목록을 가져옴
-            List<CourseBean> enrolledCourses = (List<CourseBean>) session.getAttribute("enrolledCourses");
+            ClassDAO classDAO = new ClassDAO();
+            List<ClassInfo> enrolledCourses = classDAO.getAllClasses();
             if (enrolledCourses != null) {
                 // 각 강의에 대해 페이지 경로를 설정하고 링크를 생성
-                for (CourseBean course : enrolledCourses) {
+                for (ClassInfo course : enrolledCourses) {
                     String coursePage = "";
-                    switch (course.getCourseCode()) {
+                    switch (course.getClassId()) {
                         case "146146":
                             coursePage = "database.jsp";
                             break;
@@ -70,9 +72,9 @@
         <!-- 강의 정보를 카드 형식으로 표시 -->
         <a href="<%= coursePage %>" class="card">
             <div class="info">
-                <span><strong>강의명:</strong> <%= course.getCourseName() %></span>
-                <span><strong>강의코드:</strong> <%= course.getCourseCode() %></span>
-                <span><strong>담당교수:</strong> <%= course.getProfessor() %></span>
+                <span><strong>강의명:</strong> <%= course.getClassName() %></span>
+                <span><strong>강의코드:</strong> <%= course.getClassId() %></span>
+                <span><strong>담당교수:</strong> <%= course.getTeacherName() %></span>
             </div>
         </a>
         <% 

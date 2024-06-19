@@ -28,6 +28,7 @@ public class LoginStudentServlet extends HttpServlet {
         if (user != null && BCrypt.checkpw(password, user.getPassword()) && user.getIfStudent() == 1) {
             HttpSession session = request.getSession();
             session.setAttribute("userName", user.getUserName());
+            session.setAttribute("userId", user.getUserId());
             session.setAttribute("ifStudent", 1);
             response.sendRedirect("index.jsp");
         } else {

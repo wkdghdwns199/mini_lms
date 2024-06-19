@@ -13,6 +13,10 @@ public class RegisterTeacherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    	request.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html; charset=UTF-8");
+        
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
         String userName = request.getParameter("userName");

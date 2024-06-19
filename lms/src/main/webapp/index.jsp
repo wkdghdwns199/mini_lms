@@ -22,7 +22,7 @@
         	else {
         		out.println("<h2>" + userName + " 교수님</h2>");
         		%>
-	            <a href=enrolled.jsp><label>강의 목록</label></a>
+	            <a href=./professor/professorPage.jsp><label>강의 목록</label></a>
             	<a href=enroll.jsp><label>출석기록</label></a>
             <%
         	}

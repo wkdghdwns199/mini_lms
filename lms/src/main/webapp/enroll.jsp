@@ -1,4 +1,5 @@
-<%@ page import="com.javalec.lms.CourseBean" %>
+<%@ page import="com.javalec.lms.ClassInfo" %>
+<%@ page import="com.javalec.lms.ClassDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -27,22 +28,23 @@
     <!-- 수강 신청 폼 -->
     <div class="container">
         <h1>수강 신청</h1>
-        <form action="saveEnrollment.jsp" method="post">
+        <form action="enrollClass" method="post">
             <%
                 // CourseBean의 모든 과목 정보를 가져와서 리스트에 저장
-                List<CourseBean> courses = CourseBean.getAllCourses();
-                for (CourseBean course : courses) {
+                ClassDAO classDAO = new ClassDAO();
+                List<ClassInfo> courses = classDAO.getAllClasses();
+                for (ClassInfo course : courses) {
             %>
             <!-- 각 과목의 정보를 카드 형식으로 표시하고 클릭 시 체크박스를 체크 -->
-            <div class="card" onclick="toggleCheckbox(event, '<%= course.getCourseCode() %>')">
+            <div class="card" onclick="toggleCheckbox(event, '<%= course.getClassId() %>')">
                 <div class="info">
-                    <span><strong>강의명:</strong> <%= course.getCourseName() %></span>
-                    <span><strong>강의코드:</strong> <%= course.getCourseCode() %></span>
-                    <span><strong>담당교수:</strong> <%= course.getProfessor() %></span>
+                    <span><strong>강의명:</strong> <%= course.getClassName() %></span>
+                    <span><strong>강의코드:</strong> <%= course.getClassId() %></span>
+                    <span><strong>담당교수:</strong> <%= course.getTeacherName() %></span>
                 </div>
                 <div class="select">
                     <!-- 각 과목의 체크박스 -->
-                    <input type="checkbox" id="<%= course.getCourseCode() %>" name="selectedCourses" value="<%= course.getCourseCode() %>">
+                    <input type="checkbox" id="<%= course.getClassId() %>" name="selectedCourses" value="<%= course.getClassId() %>">
                 </div>
             </div>
             <% } %>

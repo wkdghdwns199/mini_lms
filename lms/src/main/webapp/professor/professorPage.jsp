@@ -13,12 +13,12 @@
 
 <%
 	Class.forName("oracle.jdbc.driver.OracleDriver");
-	Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521","nunu","sunwo123");
+	Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521","scott","tiger");
 
 	Statement statement = connection.createStatement();
 
 	ResultSet classSet = statement.executeQuery("select * from CLASS");
-	
+    String teacherID = (String) session.getAttribute("userId");
 	
 	//String teacherID = "30"; // 추후 변경 -> 교수 정보를 불러와서 대체할 것.
 %>
@@ -30,7 +30,7 @@
 </div>
 		
 <div class="home-layout">
-  <button class="home-button" onclick="location.href='professorPage.jsp'">
+  <button class="home-button" onclick="location.href='/lms'">
   <p class="home-word">홈으로</p>
   </button>
 </div>
@@ -49,7 +49,7 @@
 				<tr class = "subject-container">
 					<%
 						//String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
-						String teacherID = "30"; // 추후 변경 -> 교수 정보를 불러와서 대체할 것.
+						// String teacherID = "30"; // 추후 변경 -> 교수 정보를 불러와서 대체할 것.
 						String sql = "SELECT teacher_name FROM teacher WHERE teacher_id = ?";
 						PreparedStatement pstmt = connection.prepareStatement(sql);
 						pstmt.setString(1, teacherID); // 4번째 컬럼에 있는 teacher_id 값을 설정
@@ -81,7 +81,7 @@
   	</table>
   </div>
   <div class = "register-class">
-  	<button>강의 등록</button>
+  	<button onclick="location.href='classRegisterPage.jsp'">강의 등록</button>
 	</div>
 </div>
 
