@@ -1,3 +1,7 @@
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.javalec.lms.ClassInfo" %>
 <%@ page import="com.javalec.lms.ClassDAO" %>
@@ -37,6 +41,20 @@
             margin-bottom: 5px;
         }
     </style>
+    <script>
+        function checkAttendance(classId) {
+            // 비동기 요청을 통해 check_code 값을 확인
+            fetch('checkAttendance.jsp?classId=' + classId)
+                .then(response => response.text())
+                .then(data => {
+                    if (data.trim() === 'valid') {
+                        window.location.href = 'confirmAttendance.jsp?classId=' + classId;
+                    } else {
+                        alert('출석 번호가 없습니다!');
+                    }
+                });
+        }
+    </script>
 </head>
 <body>
     <!-- 홈으로 이동하는 버튼 -->
@@ -57,16 +75,15 @@
             if (enrolledCourses != null) {
                 // 각 강의에 대해 페이지 경로를 설정하고 링크를 생성
                 for (ClassInfo course : enrolledCourses) {
-                    String coursePage = "";
         %>
         <!-- 강의 정보를 카드 형식으로 표시 -->
-        <a href="<%= coursePage %>" class="card">
+        <div class="card" onclick="checkAttendance('<%= course.getClassId() %>')">
             <div class="info">
                 <span><strong>강의명:</strong> <%= course.getClassName() %></span>
                 <span><strong>강의코드:</strong> <%= course.getClassId() %></span>
                 <span><strong>담당교수:</strong> <%= course.getTeacherName() %></span>
             </div>
-        </a>
+        </div>
         <% 
                 }
             } else {

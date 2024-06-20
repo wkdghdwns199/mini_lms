@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Attendance History</title>
+    <title>Attendance Details</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,58 +47,57 @@
 
         tr:hover {
             background-color: #f1f1f1;
-            cursor: pointer;
         }
     </style>
-    <script>
-        function viewAttendanceDetails(attendanceHistoryId, classId) {
-            window.location.href = 'attendanceDetails.jsp?attendanceHistoryId=' + attendanceHistoryId + '&classId=' + classId;
-        }
-    </script>
 </head>
 <body>
 <div class="layout">
-    <h1>Attendance History</h1>
+    <h1>Attendance Details</h1>
     <table>
         <thead>
             <tr>
-                <th>Date</th>
                 <th>Attendance History ID</th>
                 <th>Class ID</th>
-                <th>Success Time</th>
-                <th>Late Time</th>
+                <th>Student ID</th>
+                <th>Attendance Status</th>
             </tr>
         </thead>
         <tbody>
         <%
+            String attendanceHistoryId = request.getParameter("attendanceHistoryId");
             String classId = request.getParameter("classId");
 
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521", "scott", "tiger");
 
-            String sql = "SELECT DATE_STRING, ATTENDANCE_HISTORY_ID, CLASS_ID, SUCCESS_TIME, LATE_TIME " +
-                         "FROM attendance_history " +
-                         "WHERE class_id = ? " +
-                         "ORDER BY DATE_STRING DESC";
+            String sql = "SELECT ATTENDANCE_HISTORY_ID, CLASS_ID, STUDENT_ID, ATTENDANCE_STATUS " +
+                         "FROM attendance " +
+                         "WHERE ATTENDANCE_HISTORY_ID = ?";
 
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, classId);
+            pstmt.setString(1, attendanceHistoryId);
             ResultSet rs = pstmt.executeQuery();
-				
+
             while (rs.next()) {
-           		
-                String dateString = rs.getString("DATE_STRING");
-                String attendanceHistoryId = rs.getString("ATTENDANCE_HISTORY_ID");
+                String attendanceHistoryIdValue = rs.getString("ATTENDANCE_HISTORY_ID");
                 String classIdValue = rs.getString("CLASS_ID");
-                Timestamp successTime = rs.getTimestamp("SUCCESS_TIME");
-                Timestamp lateTime = rs.getTimestamp("LATE_TIME");
+                String studentId = rs.getString("STUDENT_ID");
+                int attendanceStatus = rs.getInt("ATTENDANCE_STATUS");
+
+                String attendanceStatusStr;
+                if (attendanceStatus == 0) {
+                    attendanceStatusStr = "결석";
+                } else if (attendanceStatus == 1) {
+                    attendanceStatusStr = "지각";
+                } else {
+                    attendanceStatusStr = "출석";
+                }
         %>
-            <tr onclick="viewAttendanceDetails('<%= attendanceHistoryId %>', '<%= classIdValue %>')">
-                <td><%= dateString %></td>
-                <td><%= attendanceHistoryId %></td>
+            <tr>
+                <td><%= attendanceHistoryIdValue %></td>
                 <td><%= classIdValue %></td>
-                <td><%= successTime %></td>
-                <td><%= lateTime %></td>
+                <td><%= studentId %></td>
+                <td><%= attendanceStatusStr %></td>
             </tr>
         <%
             }

@@ -81,6 +81,7 @@
             <input type="text" id="classId" name="classId" required><br>
             <label for="className">강의 이름 :</label>
             <input type="text" id="className" name="className" required><br>
+            <input type="text" id="description" name="description" required><br>
             <input type="submit" value="강의 등록">
         </form>
     </div>
