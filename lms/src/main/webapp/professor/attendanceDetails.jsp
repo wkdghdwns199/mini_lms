@@ -48,65 +48,82 @@
         tr:hover {
             background-color: #f1f1f1;
         }
+
+        .save-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .save-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 <div class="layout">
     <h1>Attendance Details</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Attendance History ID</th>
-                <th>Class ID</th>
-                <th>Student ID</th>
-                <th>Attendance Status</th>
-            </tr>
-        </thead>
-        <tbody>
-        <%
-            String attendanceHistoryId = request.getParameter("attendanceHistoryId");
-            String classId = request.getParameter("classId");
+    <form action="updateAttendanceStatus.jsp" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Attendance History ID</th>
+                    <th>Class ID</th>
+                    <th>Student ID</th>
+                    <th>Attendance Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            <%
+                String attendanceHistoryId = request.getParameter("attendanceHistoryId");
+                String classId = request.getParameter("classId");
 
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521", "scott", "tiger");
+                Class.forName("oracle.jdbc.driver.OracleDriver");
+                Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521", "scott", "tiger");
 
-            String sql = "SELECT ATTENDANCE_HISTORY_ID, CLASS_ID, STUDENT_ID, ATTENDANCE_STATUS " +
-                         "FROM attendance " +
-                         "WHERE ATTENDANCE_HISTORY_ID = ?";
+                String sql = "SELECT ATTENDANCE_HISTORY_ID, CLASS_ID, STUDENT_ID, ATTENDANCE_STATUS " +
+                             "FROM attendance " +
+                             "WHERE ATTENDANCE_HISTORY_ID = ?";
 
-            PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setString(1, attendanceHistoryId);
-            ResultSet rs = pstmt.executeQuery();
+                PreparedStatement pstmt = connection.prepareStatement(sql);
+                pstmt.setString(1, attendanceHistoryId);
+                ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                String attendanceHistoryIdValue = rs.getString("ATTENDANCE_HISTORY_ID");
-                String classIdValue = rs.getString("CLASS_ID");
-                String studentId = rs.getString("STUDENT_ID");
-                int attendanceStatus = rs.getInt("ATTENDANCE_STATUS");
-
-                String attendanceStatusStr;
-                if (attendanceStatus == 0) {
-                    attendanceStatusStr = "결석";
-                } else if (attendanceStatus == 1) {
-                    attendanceStatusStr = "지각";
-                } else {
-                    attendanceStatusStr = "출석";
+                while (rs.next()) {
+                    String attendanceHistoryIdValue = rs.getString("ATTENDANCE_HISTORY_ID");
+                    String classIdValue = rs.getString("CLASS_ID");
+                    String studentId = rs.getString("STUDENT_ID");
+                    int attendanceStatus = rs.getInt("ATTENDANCE_STATUS");
+            %>
+                <tr>
+                    <td><%= attendanceHistoryIdValue %></td>
+                    <td><%= classIdValue %></td>
+                    <td><%= studentId %></td>
+                    <td>
+                        <select name="attendanceStatus_<%= studentId %>">
+                            <option value="0" <%= (attendanceStatus == 0) ? "selected" : "" %>>결석</option>
+                            <option value="1" <%= (attendanceStatus == 1) ? "selected" : "" %>>지각</option>
+                            <option value="2" <%= (attendanceStatus == 2) ? "selected" : "" %>>출석</option>
+                        </select>
+                    </td>
+                </tr>
+            <%
                 }
-        %>
-            <tr>
-                <td><%= attendanceHistoryIdValue %></td>
-                <td><%= classIdValue %></td>
-                <td><%= studentId %></td>
-                <td><%= attendanceStatusStr %></td>
-            </tr>
-        <%
-            }
-            rs.close();
-            pstmt.close();
-            connection.close();
-        %>
-        </tbody>
-    </table>
+                rs.close();
+                pstmt.close();
+                connection.close();
+            %>
+            </tbody>
+        </table>
+        <input type="hidden" name="attendanceHistoryId" value="<%= attendanceHistoryId %>">
+        <input type="hidden" name="classId" value="<%= classId %>">
+        <button type="submit" class="save-button">저장</button>
+    </form>
 </div>
 </body>
 </html>

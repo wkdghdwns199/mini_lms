@@ -71,6 +71,13 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+        
+          #description {
+		    padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+		  }
     </style>
 </head>
 <body>
@@ -82,7 +89,7 @@
             <label for="className">강의 이름 :</label>
             <input type="text" id="className" name="className" required><br>
             <label for="className">강의 설명 :</label>
-            <input type="text" id="description" name="description" required><br>
+            <textarea id="description" name="description" rows="10" cols="50" required></textarea>
             <input type="submit" value="강의 등록">
         </form>
     </div>

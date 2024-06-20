@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import= "java.sql.*" %>
+<%@ page import="java.sql.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <!DOCTYPE html>
@@ -151,22 +151,6 @@
         .close-area {
             margin-left: 10px;
         }
-        
-        select option[value="attend"] {
-        background-color: #BEFFA0; 
-    }
-
-    select option[value="late"] {
-        background-color: #FFDD29;
-    }
-
-    select option[value="absent"] {
-        background-color: #FF2A2A; 
-    }
-
-    select {
-        background-color: transparent;
-    }
     </style>
 </head>
 <body>
@@ -295,7 +279,11 @@
                                     })
                                     .then(response => response.text())
                                     .then(data => {
-                                        console.log(data);
+                                        if (data.trim() === "Success") {
+                                            window.location.reload(); // 페이지 새로고침
+                                        } else {
+                                            console.error('Failed to update check code');
+                                        }
                                     })
                                     .catch(error => {
                                         console.error('Error:', error);
@@ -317,6 +305,7 @@
                     %>
                     <% while(rs.next()) {
                         String studentId = rs.getString("student_id");
+                        int attendanceStatus = rs.getInt("attendance_status");
 
                         String studentQuery = "SELECT * FROM student WHERE student_id = ?";
                         PreparedStatement studentPstmt = connection.prepareStatement(studentQuery);
@@ -334,13 +323,22 @@
                                 <p style="margin: 0"><%= studentId %></p>
                             </div>
                         </div>
-                               <select class="attendance-select" name="colorSelect" >
-                            <option value="attend" style="background-color: #BEFFA0;">출석</option>
-                            <option value="late" style="background-color: #FFDD29;">지각</option>
-                            <option value="absent" style="background-color: #FF2A2A;" selected>결석</option>
+                        <select class="attendance-select" name="colorSelect">
+                            <option value="attend" style="background-color: #BEFFA0;" <%= (attendanceStatus == 2) ? "selected" : "" %>>출석</option>
+                            <option value="late" style="background-color: #FFDD29;" <%= (attendanceStatus == 1) ? "selected" : "" %>>지각</option>
+                            <option value="absent" style="background-color: #FF2A2A;" <%= (attendanceStatus == 0) ? "selected" : "" %>>결석</option>
                         </select>
                     </div>
+                    <% 
+                        studentRs.close();
+                        studentPstmt.close();
+                    %>
                     <% } %>
+                    <%
+                        rs.close();
+                        pstmt.close();
+                        connection.close();
+                    %>
                 </div>
                 <div class="modal-footer-layout">
                     <button class="attendance-button">저장</button>
@@ -385,7 +383,11 @@
         })
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+            if (data.trim() === "Success") {
+                window.location.reload(); // 페이지 새로고침
+            } else {
+                console.error('Failed to update check code');
+            }
         })
         .catch(error => {
             console.error('Error:', error);

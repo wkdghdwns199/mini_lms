@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%String classId = request.getParameter("classId"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,14 +43,7 @@
         <div class="container">
             <h1>출석 코드 입력</h1>
             <!-- 출석 코드 입력 폼 -->
-            <form action="confirmAttendance.jsp" method="post">
-                <!-- 주차 정보를 숨김 필드로 전달 -->
-                <input type="hidden" name="week" value="<%= request.getParameter("week") %>">
-                <!-- 교시 정보를 숨김 필드로 전달 -->
-                <input type="hidden" name="session" value="<%= request.getParameter("session") %>">
-                <!-- 과목 정보를 숨김 필드로 전달 -->
-                <input type="hidden" name="course" value="<%= request.getParameter("course") %>">
-                <!-- 출석 코드 입력 필드와 확인 버튼 -->
+            <form action="confirmAttendance.jsp?classId=<%= classId %>" method="post">
                 <label for="code">출석 코드:</label>
                 <input type="text" id="code" name="code" required>
                 <button type="submit">확인</button>

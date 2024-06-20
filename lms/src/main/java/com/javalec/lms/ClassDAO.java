@@ -84,34 +84,35 @@ public class ClassDAO {
         String SELECT_CLASSES_ID_SQL = "SELECT * FROM class_student WHERE student_id = ?";
         String SELECT_CLASSES_SQL = "SELECT * FROM class WHERE class_id = ?";
 
-        try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CLASSES_ID_SQL)) {
-
+        try  {
+        	Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CLASSES_ID_SQL);
             preparedStatement.setString(1, studentId);
             ResultSet rs = preparedStatement.executeQuery();
-
-            try (PreparedStatement preparedStatement2 = connection.prepareStatement(SELECT_CLASSES_SQL)) {
+            PreparedStatement preparedStatement2 = connection.prepareStatement(SELECT_CLASSES_SQL);
+            
                 while (rs.next()) {
                     preparedStatement2.setString(1, rs.getString("class_id"));
                     ResultSet rs2 = preparedStatement2.executeQuery();
-
-                    if (rs2.next()) { // rs2의 첫 번째 행으로 이동합니다.
+                    
+                    if (rs2.next()) { 
                         String dbClassId = rs2.getString("class_id");
                         String dbClassName = rs2.getString("class_name");
                         String dbTeacherId = rs2.getString("teacher_id");
                         String dbCheckCode = rs2.getString("check_code");
                         String dbTeacherName = rs2.getString("teacher_name");
                         String dbDescription = rs2.getString("description");
-
+                       
                         courses.add(new ClassInfo(dbClassId, dbClassName, dbTeacherId, dbCheckCode, dbTeacherName, dbDescription));
+                        
                     }
                 }
-            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-        System.out.print(courses);
+
         return courses;
     }
 
@@ -142,5 +143,92 @@ public class ClassDAO {
             return rs.getString("user_id");
         }
         return "";
+    }
+    
+
+    // 특정 과목의 check_code를 가져오는 메서드
+    public String getCheckCode(String classId) throws ClassNotFoundException, SQLException {
+    	
+    	Class.forName("oracle.jdbc.driver.OracleDriver");
+        
+        String checkCode = "";
+  
+        String query = "SELECT check_code FROM class WHERE class_id = ?";
+        try (Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword); 
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, classId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    checkCode = rs.getString("check_code");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(checkCode);
+        return checkCode;
+    }
+
+    // 출석 상태를 업데이트하는 메서드
+    public boolean updateAttendanceStatus(String classId, String studentId) throws ClassNotFoundException, SQLException {
+    	Class.forName("oracle.jdbc.driver.OracleDriver");
+    	Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+    	
+    	
+    	
+        String query = "UPDATE attendance SET attendance_status = 2 WHERE class_id = ? AND student_id = ? AND active = 1";
+        
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, classId);
+        pstmt.setString(2, studentId);
+        
+        int rowsUpdated = pstmt.executeUpdate();
+    	if (rowsUpdated > 0) {
+    		return true;
+    	}
+        
+        return false;
+        
+//        try (Connection conn = getConnection(); 
+//             PreparedStatement pstmt = conn.prepareStatement(query)) {
+//            pstmt.setString(1, classId);
+//            pstmt.setString(2, studentId);
+//            int rowsUpdated = pstmt.executeUpdate();
+//            return rowsUpdated > 0;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+    }
+    
+    public boolean updateLateStatus(String classId, String studentId) throws ClassNotFoundException, SQLException {
+    	Class.forName("oracle.jdbc.driver.OracleDriver");
+    	Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
+    	
+    	
+    	
+        String query = "UPDATE attendance SET attendance_status = 1 WHERE class_id = ? AND student_id = ? AND active = 1";
+        
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        pstmt.setString(1, classId);
+        pstmt.setString(2, studentId);
+        
+        int rowsUpdated = pstmt.executeUpdate();
+    	if (rowsUpdated > 0) {
+    		return true;
+    	}
+        
+        return false;
+        
+//        try (Connection conn = getConnection(); 
+//             PreparedStatement pstmt = conn.prepareStatement(query)) {
+//            pstmt.setString(1, classId);
+//            pstmt.setString(2, studentId);
+//            int rowsUpdated = pstmt.executeUpdate();
+//            return rowsUpdated > 0;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
     }
 }

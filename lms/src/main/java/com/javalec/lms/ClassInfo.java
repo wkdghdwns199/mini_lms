@@ -12,6 +12,7 @@ package com.javalec.lms;
         this.classId = classId;
         this.className = className;
         this.teacherId = teacherId;
+        this.checkCode = checkCode;
         this.teacherName = teacherName;
         this.description = description;
 	}

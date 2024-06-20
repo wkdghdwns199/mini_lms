@@ -32,13 +32,30 @@
         .card .info span {
             margin-bottom: 5px;
         }
+        
+        .Check-button {
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .Check-button:hover {
+            background-color: #45a049;
+        }
     </style>
     <script>
         function checkAttendance(classId, checkCode) {
-            if (checkCode !== null) {
-                window.location.href = "attendanceCode.jsp?classId=" + classId;
+            if (checkCode === null || checkCode === 'null') {
+            	alert("출석 번호가 없습니다!");
+            	return ;
             } else {
-                alert("출석 번호가 없습니다!");
+            	window.location.href = "attendanceCode.jsp?classId=" + classId;
+                
             }
         }
     </script>
@@ -59,15 +76,26 @@
             
             if (enrolledCourses != null) {
                 for (ClassInfo course : enrolledCourses) {
+                	
                     String coursePage = "javascript:checkAttendance('" + course.getClassId() + "', '" + course.getCheckCode() + "')";
         %>
-        <a href="<%= coursePage %>" class="card">
-            <div class="info">
+        <div class="card">
+         <div class="info">
                 <span><strong>강의명:</strong> <%= course.getClassName() %></span>
                 <span><strong>강의코드:</strong> <%= course.getClassId() %></span>
                 <span><strong>담당교수:</strong> <%= course.getTeacherName() %></span>
             </div>
-        </a>
+
+        <div>
+             
+              <a class="Check-button" href="<%= coursePage %>">출석하기</a>
+                         <a class="Check-button" href="attendanceRecord.jsp?classId=<%= course.getClassId() %>">출석 기록</a>
+            	<a class="Check-button" href="explain.jsp?classId=<%= course.getClassId() %>">강의 설명</a> 
+         </div>
+       
+          
+            
+        </div>
         <% 
                 }
             } else {
