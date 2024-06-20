@@ -6,12 +6,14 @@ package com.javalec.lms;
  	private String teacherId;
  	private String checkCode;
  	private String teacherName;
-
- 	public ClassInfo(String classId, String className, String teacherId, String checkCode, String teacherName) {
+ 	private String description;
+ 	
+ 	public ClassInfo(String classId, String className, String teacherId, String checkCode, String teacherName, String description) {
         this.classId = classId;
         this.className = className;
         this.teacherId = teacherId;
         this.teacherName = teacherName;
+        this.description = description;
 	}
 	public String getClassId() {
  		return classId;
@@ -42,5 +44,11 @@ package com.javalec.lms;
 	}
 	public void setTeacherName(String teacherName) {
 		this.teacherName = teacherName;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
  }

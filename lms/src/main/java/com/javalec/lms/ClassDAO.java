@@ -11,7 +11,7 @@ public class ClassDAO {
     public void saveClass(ClassInfo classInfo) throws ClassNotFoundException {
     	Class.forName("oracle.jdbc.driver.OracleDriver");
 
-        String INSERT_CLASS_SQL = "INSERT INTO class (id, class_id, class_name, teacher_id, check_code, teacher_name) VALUES (count_seq.NEXTVAL, ?, ?, ?, ?, ?)";
+        String INSERT_CLASS_SQL = "INSERT INTO class (id, class_id, class_name, teacher_id, check_code, teacher_name, description) VALUES (count_seq.NEXTVAL, ?, ?, ?, ?, ?, ?)";
         
         
         try (Connection connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
@@ -21,6 +21,7 @@ public class ClassDAO {
             preparedStatement.setString(3, classInfo.getTeacherId());
             preparedStatement.setString(4, classInfo.getCheckCode());
             preparedStatement.setString(5, classInfo.getTeacherName());
+            preparedStatement.setString(6, classInfo.getDescription());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,8 +46,9 @@ public class ClassDAO {
                 String dbTeacherId = rs.getString("teacher_id");
                 String dbCheckCode = rs.getString("check_code");
                 String dbTeacherName = rs.getString("teacher_name");
+                String dbDescription = rs.getString("description");
                 
-                courses.add(new ClassInfo(dbClassId, dbClassName, dbTeacherId, dbCheckCode,dbTeacherName));
+                courses.add(new ClassInfo(dbClassId, dbClassName, dbTeacherId, dbCheckCode,dbTeacherName, dbDescription));
                 
             }
         } catch (SQLException e) {
@@ -99,8 +101,9 @@ public class ClassDAO {
                         String dbTeacherId = rs2.getString("teacher_id");
                         String dbCheckCode = rs2.getString("check_code");
                         String dbTeacherName = rs2.getString("teacher_name");
+                        String dbDescription = rs2.getString("description");
 
-                        courses.add(new ClassInfo(dbClassId, dbClassName, dbTeacherId, dbCheckCode, dbTeacherName));
+                        courses.add(new ClassInfo(dbClassId, dbClassName, dbTeacherId, dbCheckCode, dbTeacherName, dbDescription));
                     }
                 }
             }

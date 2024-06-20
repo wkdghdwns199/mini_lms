@@ -309,7 +309,7 @@
                 </div>
                 <div class="modal-body-layout">
                     <%
-                        String sql = "SELECT student_id FROM attendance WHERE class_id = ? and active = 1";
+                        String sql = "SELECT attendance_status, student_id FROM attendance WHERE class_id = ? and active = 1";
                         PreparedStatement pstmt = connection.prepareStatement(sql);
                         pstmt.setString(1, classId);
 

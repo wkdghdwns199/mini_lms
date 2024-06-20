@@ -202,7 +202,7 @@
                                 <input type="hidden" name="classId" value="<%= classId %>">
                                 <input type="submit" class="Check-button" value="출석 확인">
                                 <a class="Check-button" href="attendanceRecord.jsp?classId=<%= classId %>">출석 기록</a>
-                                
+                               	<a class="Check-button" href="explain.jsp?classId=<%= classId %>">강의 설명</a> 
                             </form>
                         </td>
                     </tr>

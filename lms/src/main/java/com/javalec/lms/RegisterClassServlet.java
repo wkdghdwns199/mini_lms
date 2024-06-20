@@ -25,10 +25,10 @@ public class RegisterClassServlet extends HttpServlet {
         String className = request.getParameter("className");
         String teacherId = (String) session.getAttribute("userId");
         String teacherName = (String) session.getAttribute("userName");
+        String description = request.getParameter("description");
         
         
-        
-        ClassInfo classInfo = new ClassInfo(classId, className, teacherId,  "", teacherName);
+        ClassInfo classInfo = new ClassInfo(classId, className, teacherId,  "", teacherName, description);
         ClassDAO classDAO = new ClassDAO();
         if (classId != null && className!=null) {
             try {
