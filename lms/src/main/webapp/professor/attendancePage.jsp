@@ -151,6 +151,22 @@
         .close-area {
             margin-left: 10px;
         }
+        
+        select option[value="attend"] {
+        background-color: #BEFFA0; 
+    }
+
+    select option[value="late"] {
+        background-color: #FFDD29;
+    }
+
+    select option[value="absent"] {
+        background-color: #FF2A2A; 
+    }
+
+    select {
+        background-color: transparent;
+    }
     </style>
 </head>
 <body>
@@ -242,7 +258,7 @@
                                 <p>출석 코드: <%= checkCode %></p>
                                 <p>남은 출석 시간: <span id="remaining-success-time"></span></p>
                                 <p>남은 지각 시간: <span id="remaining-late-time"></span></p>
-                                <button id="updateCheckCodeButton" onclick="updateCheckCodeToNull('<%= classId %>')">출석 코드 초기화</button>
+                                <button id="updateCheckCodeButton" onclick="updateCheckCodeToNull('<%= classId %>')">출석 종료</button>
 							</div>
                             </div>
                             <script>
@@ -318,10 +334,10 @@
                                 <p style="margin: 0"><%= studentId %></p>
                             </div>
                         </div>
-                        <select class="attendance-select" name="colorSelect" style="background-color: #ff2a2a" onchange="updateSelectColor(this)">
-                            <option value="attend" style="background-color: #ffffff">출석</option>
-                            <option value="late" style="background-color: #ffffff">지각</option>
-                            <option value="absent" style="background-color: #ffffff" selected>결석</option>
+                               <select class="attendance-select" name="colorSelect" >
+                            <option value="attend" style="background-color: #BEFFA0;">출석</option>
+                            <option value="late" style="background-color: #FFDD29;">지각</option>
+                            <option value="absent" style="background-color: #FF2A2A;" selected>결석</option>
                         </select>
                     </div>
                     <% } %>
@@ -370,7 +386,6 @@
         .then(response => response.text())
         .then(data => {
             console.log(data);
-            location.reload();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -390,6 +405,7 @@
 
     const selectElements = document.getElementsByClassName('attendance-select');
     for (let i = 0; i < selectElements.length; i++) {
+        updateSelectColor(selectElements[i]); // 초기 색상 설정
         selectElements[i].addEventListener('change', function() {
             updateSelectColor(this);
         });

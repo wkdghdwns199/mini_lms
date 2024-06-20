@@ -82,7 +82,7 @@ public class AttendanceStartServlet extends HttpServlet {
             pstmt = connection.prepareStatement(studentQuery);
             pstmt.setString(1, classId);
             ResultSet rs2 = pstmt.executeQuery();
-
+            
 
             String attendanceInsertQuery = "INSERT INTO attendance (ID, ATTENDANCE_HISTORY_ID, CLASS_ID, STUDENT_ID, ATTENDANCE_STATUS, ACTIVE) VALUES (count_seq.NEXTVAL, ?, ?, ?, 0, 1)";
             PreparedStatement attendancePstmt = connection.prepareStatement(attendanceInsertQuery);

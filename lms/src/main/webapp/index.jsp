@@ -191,7 +191,7 @@ input[type="submit"]:hover {
                     %>
                     <div class="home-button-container">
                         <div class="home-button"><a href="./professor/professorPage.jsp">강의 목록</a></div>
-                        <div class="home-button"><a href="enroll.jsp">출석기록</a></div>
+                   
                     </div>
                     <%
                 }

@@ -201,6 +201,8 @@
                                 <input type="hidden" name="teacherName" value="<%= teacherName %>">
                                 <input type="hidden" name="classId" value="<%= classId %>">
                                 <input type="submit" class="Check-button" value="출석 확인">
+                                <a class="Check-button" href="attendanceRecord.jsp">출석 기록</a>
+                                
                             </form>
                         </td>
                     </tr>

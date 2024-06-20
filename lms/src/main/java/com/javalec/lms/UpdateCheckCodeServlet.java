@@ -34,14 +34,16 @@ public class UpdateCheckCodeServlet extends HttpServlet {
             pstmt = connection.prepareStatement(updateClassSql);
             pstmt.setString(1, classId);
             pstmt.executeUpdate();
+
+            // 성공 메시지 반환
+            response.setContentType("text/plain");
+            response.getWriter().write("Success");
             
-            String className = request.getParameter("className");
-            String teacherName = request.getParameter("teacherName");
-            
-            response.sendRedirect("/lms/professor/attendancePage.jsp?classId=" + classId + "&className=" + className + "&teacherName=" + teacherName);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
+            response.setContentType("text/plain");
+            response.getWriter().write("Error");
         } finally {
             try {
                 if (pstmt != null) pstmt.close();
@@ -50,6 +52,5 @@ public class UpdateCheckCodeServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        response.getWriter().write("Check code updated to null.");
     }
 }
