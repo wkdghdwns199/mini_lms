@@ -53,18 +53,12 @@
             <p>현재 다른 네트워크에 접속중입니다.</p>
             <%
                 // 과목 정보를 기반으로 돌아갈 페이지 결정
-                String course = request.getParameter("course");
-                String returnPage = "";
-                if ("Database".equals(course)) {
-                    returnPage = "database.jsp";
-                } else if ("Computer Structure".equals(course)) {
-                    returnPage = "computerStructure.jsp";
-                } else if ("Open Source Software".equals(course)) {
-                    returnPage = "openSourceSoftware.jsp";
-                }
+            
+                
+                
             %>
             <!-- 돌아가기 버튼 -->
-            <a href="<%= returnPage %>" class="back-button">돌아가기</a>
+            <a href="./enrolled.jsp" class="back-button">돌아가기</a>
         </div>
     </div>
 </body>

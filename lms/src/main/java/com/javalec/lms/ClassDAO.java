@@ -171,6 +171,8 @@ public class ClassDAO {
 
     // 출석 상태를 업데이트하는 메서드
     public boolean updateAttendanceStatus(String classId, String studentId) throws ClassNotFoundException, SQLException {
+    	
+    	
     	Class.forName("oracle.jdbc.driver.OracleDriver");
     	Connection conn = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
     	

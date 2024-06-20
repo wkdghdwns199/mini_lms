@@ -54,8 +54,7 @@
             	alert("출석 번호가 없습니다!");
             	return ;
             } else {
-            	window.location.href = "attendanceCode.jsp?classId=" + classId;
-                
+            	window.location.href = "attendanceCode.jsp?classId=" + classId;   
             }
         }
     </script>

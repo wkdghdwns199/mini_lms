@@ -3,6 +3,12 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
+<%@ page import="java.net.InetAddress"%>
+<%@ page import="java.net.UnknownHostException"%>
+<%@ page import="javax.servlet.http.HttpServletRequest"%>
+<%@ page import="javax.servlet.http.HttpServletResponse"%>
+<%@ page import="javax.servlet.ServletException"%>
+<%@ page import="java.io.IOException"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
@@ -49,7 +55,23 @@
     
     // 결과 메시지 변수 초기화
     String message = "";
+    
+    String ipAddress = request.getRemoteAddr();
 
+    // X-Forwarded-For 헤더를 확인하여 프록시 서버 뒤에 있는 경우 실제 IP 주소를 얻음
+    String forwardedFor = request.getHeader("X-Forwarded-For");
+    if (forwardedFor != null && !forwardedFor.isEmpty()) {
+        ipAddress = forwardedFor.split(",")[0];
+    }
+	System.out.println(ipAddress);
+    // IP 주소를 출력
+    if (!ipAddress.equals("192.168.0.4")){
+    	if (!ipAddress.equals("0:0:0:0:0:0:0:1")){
+    		response.sendRedirect("./banned.jsp");	
+    	}
+    	
+    }
+	
     // check_code와 입력된 code 비교
     if (checkCode != null && !checkCode.equals("null")) {
         // 출석 상태 업데이트
