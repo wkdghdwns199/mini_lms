@@ -51,23 +51,13 @@
         <h1>강의 목록</h1>
         <%
             // 세션에서 등록된 강의 목록을 가져옴
+            String studentId = (String) session.getAttribute("userId");
             ClassDAO classDAO = new ClassDAO();
-            List<ClassInfo> enrolledCourses = classDAO.getAllClasses();
+            List<ClassInfo> enrolledCourses = classDAO.getEnrollClasses(studentId);
             if (enrolledCourses != null) {
                 // 각 강의에 대해 페이지 경로를 설정하고 링크를 생성
                 for (ClassInfo course : enrolledCourses) {
                     String coursePage = "";
-                    switch (course.getClassId()) {
-                        case "146146":
-                            coursePage = "database.jsp";
-                            break;
-                        case "123123":
-                            coursePage = "computerStructure.jsp";
-                            break;
-                        case "234123":
-                            coursePage = "openSourceSoftware.jsp";
-                            break;
-                    }
         %>
         <!-- 강의 정보를 카드 형식으로 표시 -->
         <a href="<%= coursePage %>" class="card">
