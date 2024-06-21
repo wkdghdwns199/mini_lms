@@ -65,7 +65,7 @@
     }
 	System.out.println(ipAddress);
     // IP 주소를 출력
-    if (!ipAddress.equals("192.168.0.4")){
+    if (!ipAddress.equals("172.18.247.198")){
     	if (!ipAddress.equals("0:0:0:0:0:0:0:1")){
     		response.sendRedirect("./banned.jsp");	
     	}
