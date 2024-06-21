@@ -115,6 +115,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            margin: 5px;
         }
 
         .Check-button:hover {
@@ -196,13 +197,17 @@
                         <td><%= classId %></td>
                         <td><%= teacherName %></td>
                         <td>
-                            <form action="attendancePage.jsp" method="POST">
+                            <form action="attendancePage.jsp" method="POST" style="display:inline;">
                                 <input type="hidden" name="className" value="<%= className %>">
                                 <input type="hidden" name="teacherName" value="<%= teacherName %>">
                                 <input type="hidden" name="classId" value="<%= classId %>">
                                 <input type="submit" class="Check-button" value="출석 확인">
-                                <a class="Check-button" href="attendanceRecord.jsp?classId=<%= classId %>">출석 기록</a>
-                               	<a class="Check-button" href="explain.jsp?classId=<%= classId %>">강의 설명</a> 
+                            </form>
+                            <a class="Check-button" href="attendanceRecord.jsp?classId=<%= classId %>">출석 기록</a>
+                            <a class="Check-button" href="explain.jsp?classId=<%= classId %>">강의 설명</a> 
+                            <form action="/lms/deleteClass" method="POST" style="display:inline;">
+                                <input type="hidden" name="classId" value="<%= classId %>">
+                                <input type="submit" class="Check-button" value="강의 삭제" onclick="return confirm('정말 삭제하시겠습니까?');">
                             </form>
                         </td>
                     </tr>
