@@ -32,6 +32,6 @@ public class DeleteClassServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect("professorPage.jsp");
+        response.sendRedirect("/lms/professor/professorPage.jsp");
     }
 }
